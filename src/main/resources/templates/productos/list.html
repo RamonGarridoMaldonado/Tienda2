@@ -9,13 +9,16 @@
 
 <div class="container">
   <div class="row">
+    <a th:href="@{/productos/nuevoProducto}" class="btn btn-primary">Nuevo Producto</a>
     <div th:each="producto : ${productos}" class="col-3">
       <div class="card" style="width: 18rem;">
         <!--<img th:src="@{${producto.urlImg}}" src="" class="card-img-top" alt="..." width="200px" height="200px">-->
         <div class="card-body">
-          <h5 th:text="${producto.nombre}" th:name="${producto.nombre}" class="card-title" value="">Card title</h5>
-          <p th:text="${producto.descripcion}" class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a th:href="@{/productos/edit?codigo=}+${producto.codigo}" href="edit.html" class="btn btn-primary">Ver producto</a>
+          <h5 th:text="${producto.nombre}" th:name="${producto.nombre}" class="card-title" value=""></h5>
+          <p th:text="${producto.precio}" class="card-text"></p>
+          <p th:text="${producto.descripcion}" class="card-text"></p>
+          <a th:href="@{/productos/modificarProducto?codigo=}+${producto.codigo}" class="btn btn-primary">Editar</a>
+          <a th:href="@{/productos/borrar?codigo=}+${producto.codigo}" class="btn btn-primary">Borrar</a>
         </div>
       </div>
     </div>

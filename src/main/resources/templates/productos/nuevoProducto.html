@@ -19,25 +19,25 @@
       margin-top: .5em;
     }
   </style>
-  <form th:action="@{/productos/edit}" method="post">
+  <form th:action="@{/productos/new}" method="post">
     <div class="mb-6">
       <label for="codigo" class="form-label" th:text="#{tabla.codigo}">Codigo</label>
-      <input type="text" class="form-control" id="codigo" name="codigo" th:value="${producto.codigo}">
+      <input type="text" class="form-control" id="codigo" name="codigo">
     </div>
     <div class="mb-6">
       <label for="nombre" class="form-label" th:text="#{tabla.nombre}">Nombre</label>
-      <input type="text" class="form-control" id="nombre" name="nombre" th:value="${producto.nombre}">
+      <input type="text" class="form-control" id="nombre" name="nombre" >
     </div>
     <div class="mb-6">
       <label for="descripcion" class="form-label" th:text="#{tabla.descripcion}">Descripcion</label>
-      <input type="text" class="form-control" id="descripcion" name="descripcion" th:value="${producto.descripcion}">
+      <input type="text" class="form-control" id="descripcion" name="descripcion" >
     </div>
     <div class="mb-6">
       <label for="precio" class="form-label" th:text="#{tabla.precio}">Precio</label>
-      <input type="text" class="form-control" id="precio" name="precio" th:value="${producto.precio}">
+      <input type="text" class="form-control" id="precio" name="precio">
     </div>
     <div>
-      <input type="submit" value="Editar" class="btn btn-primary" id="botonEnviar">
+      <input type="submit" value="Guardar" class="btn btn-primary" id="botonEnviar">
     </div>
   </form>
 </body>
