@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head th:replace="commons/header :: header">
+    </head>
+<body>
+    <style>
+        h1 {
+            display: inline;
+        }
+    </style>
+    <div th:replace="commons/menu :: menu" />
+    <h3 th:text="#{saludar.usuario(${session.usuario.usuario})}"></h3>
+    <h1 th:text="${greetings}"></h1>
+    <div th:replace="commons/footer :: footer" />
+</body>
+</html> 

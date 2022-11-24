@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+  <div th:fragment="menu">
+    <!-- Menu principal -->
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="hola.html">Hola</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" th:href="@{/login/wellcome}" aria-current="page" href="#" th:text="#{menu.home}"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/productos/list}" href="#" th:text="#{menu.productos}"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/clientes/listaClientes}" href="#" th:text="#{menu.clientes}"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/proveedores/listaProveedores}" href="#" th:text="#{menu.proveedores}"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/vendedores/listaVendedores}" href="#" th:text="#{menu.vendedores}"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" th:text="#{menu.mapa}"></a>
+            </li>
+
+          <!--Idioma-->
+
+
+          <ul class="navbar-nav">
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">&#127760;
+              </a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" th:href="@{?lang_config=es}" href="#"
+                  th:text="#{menu.idioma.espanol}"></a>
+                <a class="dropdown-item" th:href="@{?lang_config=en}" href="#"
+                  th:text="#{menu.idioma.ingles}"></a>
+                <a class="dropdown-item" th:href="@{?lang_config=fr}" href="#"
+                  th:text="#{menu.idioma.frances}"></a>
+              </div>
+            </li>
+          </ul>
+
+
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" th:placeholder="#{menu.buscar}" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit" th:text="#{menu.buscar}"></button>
+          </form>
+
+          <div><a th:href="@{/login/logout}" th:text="${session.usuario.usuario}"></a></div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</body>
+
+</html>
