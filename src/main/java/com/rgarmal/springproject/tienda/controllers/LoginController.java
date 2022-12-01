@@ -26,8 +26,11 @@ public class LoginController {
         return "signin";
     }
 
-    @PostMapping(value = { "/wellcome" })
+    @RequestMapping(value = { "/wellcome" })
     public ModelAndView guardarUsuario(Model model, LoginUsuario usuario, HttpSession session) {
+
+        usuario = new LoginUsuario();
+        usuario.setUsuario("francisco linares");
 
         session.setAttribute("usuario", usuario);
         model.addAttribute("usuario", usuario);
@@ -46,8 +49,4 @@ public class LoginController {
         return "signin";
     }
 
-    @GetMapping(value = "/wellcome")
-    public String wellcome(Model model) {
-        return "login/wellcome";
-    }
 }

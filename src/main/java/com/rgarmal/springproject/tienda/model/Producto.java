@@ -2,6 +2,8 @@ package com.rgarmal.springproject.tienda.model;
 
 import java.util.Date;
 
+import com.rgarmal.springproject.tienda.utils.ImageUtil;
+
 public class Producto {
 
     private int codigo;
@@ -9,6 +11,7 @@ public class Producto {
     private String descripcion;
     private float precio;
     private Date fecha;
+    private byte[] img;
 
     public Producto() {
     }
@@ -24,11 +27,12 @@ public class Producto {
         this.precio = precio;
     }
 
-    public Producto(int codigo, String nombre, String descripcion, String urlImg, Date fecha) {
+    public Producto(int codigo, String nombre, String descripcion, Date fecha, byte[] img) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fecha = fecha;
+        this.img = img;
     }
 
     public int getCodigo() {
@@ -71,6 +75,18 @@ public class Producto {
         this.precio = precio;
     }
 
+    public byte[] getImg() {
+        return img;
+    }
+
+    public void setImg(byte[] bs) {
+        this.img = bs;
+    }
+
+    public String getImageView() {
+        return ImageUtil.getImgData(this.img);
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -92,5 +108,4 @@ public class Producto {
             return false;
         return true;
     }
-
 }

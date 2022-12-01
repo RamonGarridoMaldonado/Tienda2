@@ -9,37 +9,64 @@
   <head th:replace="commons/menu :: menu" />
   <style>
     form {
-      width: 20em;
+      width: 50em;
+      margin-left: 2em;
+      margin-top: .8em;
+    }
+
+    h3 {
       margin-left: 2em;
       margin-top: .8em;
     }
 
     #divCheck,
-    #botonEnviar {
-      margin-top: .5em;
+    #botonEnviar,
+    #botonCancelar {
+      margin-top: 2.5em;
     }
   </style>
-  <form th:action="@{/productos/edit}" method="post">
-    <div class="mb-6">
-      <label for="codigo" class="form-label" th:text="#{tabla.codigo}">Codigo</label>
-      <input type="text" class="form-control" id="codigo" name="codigo" th:value="${producto.codigo}">
-    </div>
-    <div class="mb-6">
-      <label for="nombre" class="form-label" th:text="#{tabla.nombre}">Nombre</label>
-      <input type="text" class="form-control" id="nombre" name="nombre" th:value="${producto.nombre}">
-    </div>
-    <div class="mb-6">
-      <label for="descripcion" class="form-label" th:text="#{tabla.descripcion}">Descripcion</label>
-      <input type="text" class="form-control" id="descripcion" name="descripcion" th:value="${producto.descripcion}">
-    </div>
-    <div class="mb-6">
-      <label for="precio" class="form-label" th:text="#{tabla.precio}">Precio</label>
-      <input type="text" class="form-control" id="precio" name="precio" th:value="${producto.precio}">
-    </div>
-    <div>
-      <input type="submit" value="Editar" class="btn btn-primary" id="botonEnviar">
-    </div>
-  </form>
+  <div class="container">
+
+
+
+    <h3>Datos del producto</h3>
+    <form th:action="@{/productos/edit}" method="post" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col">
+          <div>
+            <img th:src="'data:image/jpeg;base64,' + ${producto.imageView}" class="card-img-top" alt="..." width="200px"
+              height="200px">
+            Ingresa el archivo:
+            <input name="file" type="file" id="file" />
+          </div>
+
+        </div>
+        <div class="col">
+          <div>
+            <label hidden for="codigo" class="form-label" th:text="#{tabla.codigo}">Codigo</label>
+            <input type="hidden" class="form-control" id="codigo" name="codigo" th:value="${producto.codigo}">
+          </div>
+          <div>
+            <label for="nombre" class="form-label" th:text="#{tabla.nombre}">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" th:value="${producto.nombre}">
+          </div>
+          <div>
+            <label for="descripcion" class="form-label" th:text="#{tabla.descripcion}">Descripcion</label>
+            <input type="text" class="form-control" id="descripcion" name="descripcion"
+              th:value="${producto.descripcion}">
+          </div>
+          <div>
+            <label for="precio" class="form-label" th:text="#{tabla.precio}">Precio</label>
+            <input type="text" class="form-control" id="precio" name="precio" th:value="${producto.precio}">
+          </div>
+        </div>
+      </div>
+      <div>
+        <input type="submit" value="Actualizar" class="btn btn-primary" id="botonEnviar">
+        <a th:href="@{/productos/list}" class="btn btn-primary" id="botonCancelar">Cancelar</a>
+      </div>
+    </form>
+  </div>
 </body>
 
 </html>
