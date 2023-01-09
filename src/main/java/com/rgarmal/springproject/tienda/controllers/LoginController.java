@@ -30,7 +30,7 @@ public class LoginController {
     public ModelAndView guardarUsuario(Model model, LoginUsuario usuario, HttpSession session) {
 
         usuario = new LoginUsuario();
-        usuario.setUsuario("francisco linares");
+        usuario.setUsuario("Ramon Garrido Maldonado");
 
         session.setAttribute("usuario", usuario);
         model.addAttribute("usuario", usuario);

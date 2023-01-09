@@ -164,7 +164,5 @@ public class ClientesDAOimpl extends JdbcDaoSupport implements ClientesDAO {
         final int[] types = { Types.INTEGER };
 
         int update = getJdbcTemplate().update(query, params, types);
-
     }
-
 }

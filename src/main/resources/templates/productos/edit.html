@@ -24,48 +24,98 @@
     #botonCancelar {
       margin-top: 2.5em;
     }
+
+    img {
+      width: 10em;
+      height: 15em;
+    }
   </style>
   <div class="container">
 
 
 
     <h3>Datos del producto</h3>
-    <form th:action="@{/productos/edit}" method="post" enctype="multipart/form-data">
-      <div class="row">
-        <div class="col">
-          <div>
-            <img th:src="'data:image/jpeg;base64,' + ${producto.imageView}" class="card-img-top" alt="..." width="200px"
-              height="200px">
-            Ingresa el archivo:
-            <input name="file" type="file" id="file" />
-          </div>
 
+    <div th:unless="${carrito}">  
+      <form th:action="@{/productos/edit}" method="post" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col">
+            <div th:unless="${carrito}">
+              <div class="col">
+                <div>
+                  <img th:src="'data:image/jpeg;base64,' + ${producto.imageView}" class="card-img-top" alt="..." width="200px"
+                    height="200px">
+                  Ingresa el archivo:
+                  <input name="file" type="file" id="file" />
+                </div>
+      
+              </div>
+              <div>
+                <label hidden for="codigo" class="form-label" th:text="#{tabla.codigo}">Codigo</label>
+                <input type="hidden" class="form-control" id="codigo" name="codigo" th:value="${producto.codigo}">
+              </div>
+              <div>
+                <label for="nombre" class="form-label" th:text="#{tabla.nombre}">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" th:value="${producto.nombre}">
+              </div>
+              <div>
+                <label for="descripcion" class="form-label" th:text="#{tabla.descripcion}">Descripcion</label>
+                <input type="text" class="form-control" id="descripcion" name="descripcion"
+                  th:value="${producto.descripcion}">
+              </div>
+              <div>
+                <label for="precio" class="form-label" th:text="#{tabla.precio}">Precio</label>
+                <input type="text" class="form-control" id="precio" name="precio" th:value="${producto.precio}">
+              </div>
+              <div>
+                <input type="submit" value="Actualizar" class="btn btn-primary" id="botonEnviar">
+                <a th:href="@{/productos/list}" class="btn btn-primary" id="botonCancelar">Cancelar</a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col">
-          <div>
-            <label hidden for="codigo" class="form-label" th:text="#{tabla.codigo}">Codigo</label>
-            <input type="hidden" class="form-control" id="codigo" name="codigo" th:value="${producto.codigo}">
-          </div>
-          <div>
-            <label for="nombre" class="form-label" th:text="#{tabla.nombre}">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" th:value="${producto.nombre}">
-          </div>
-          <div>
-            <label for="descripcion" class="form-label" th:text="#{tabla.descripcion}">Descripcion</label>
-            <input type="text" class="form-control" id="descripcion" name="descripcion"
-              th:value="${producto.descripcion}">
-          </div>
-          <div>
-            <label for="precio" class="form-label" th:text="#{tabla.precio}">Precio</label>
-            <input type="text" class="form-control" id="precio" name="precio" th:value="${producto.precio}">
+      </form>
+    </div>
+
+    <div th:if="${carrito}">  
+      <form th:action="@{/cesta/pedido}" method="post" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col">
+          <div th:if="${carrito}">
+            <div>
+              <img th:src="'data:image/jpeg;base64,' + ${producto.imageView}" class="card-img-top" alt="..." width="200px"
+                height="200px">
+            </div>
+  
+            <div>
+              <label hidden for="codigo" class="form-label" th:text="#{tabla.codigo}">Codigo</label>
+              <input type="hidden" class="form-control" id="codigo" name="codigo" th:value="${producto.codigo}">
+            </div>
+            <div>
+              <label for="nombre" class="form-label"  th:text="#{tabla.nombre}">Nombre</label>
+              <input type="text" class="form-control" id="nombre" name="nombre" th:value="${producto.nombre}" >
+            </div>
+            <div>
+              <label for="descripcion" class="form-label" th:text="#{tabla.descripcion}" >Descripcion</label>
+              <input type="text" class="form-control" id="descripcion" name="descripcion"
+                th:value="${producto.descripcion}">
+            </div>
+            <div>
+              <label for="precio" class="form-label" th:text="#{tabla.precio}">Precio</label>
+              <input type="text" class="form-control" id="precio" name="precio" th:value="${producto.precio}" >
+            </div>
+            <div>
+              <label for="cantidad" class="form-label" th:text="#{tabla.cantidad}">Cantidad</label>
+              <input type="number" class="form-control" id="cantidad" name="cantidad" th:value="${cantidad}">
+            </div>
+            <div>
+              <input type="submit" value="Añadir" class="btn btn-primary" id="botonEnviar">
+              <a th:href="@{/productos/list}" class="btn btn-primary" id="botonCancelar">Cancelar</a>
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <input type="submit" value="Actualizar" class="btn btn-primary" id="botonEnviar">
-        <a th:href="@{/productos/list}" class="btn btn-primary" id="botonCancelar">Cancelar</a>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </body>
 
