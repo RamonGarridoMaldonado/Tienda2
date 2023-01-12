@@ -64,18 +64,20 @@
                         </td>
                     </span>
                     <td>
-                        <a th:href="@{/clientes/modificarCliente?codigo=}+${cliente.codigo}"
-                            href="modificarCliente.html" class="btn btn-light" id="nuevoCliente"><img
-                                th:src="@{/img/editar.png}" class="card-img-top" alt="..." width="8px"
-                                height="20px" /></a>
-                        <a th:href="@{/clientes/borrarCliente?codigo=}+${cliente.codigo}" href="listaClientes.html"
-                            class="btn btn-light" id="borrarCliente"><img th:src="@{/img/borrar.png}"
-                                class="card-img-top" alt="..." width="8px" height="20px" /></a>
+                        <a th:href="@{/cesta/pedido?codigo=}+${cliente.codigo}" class="btn btn-light"
+                            id="cestaCliente"><img th:src="@{/img/cesta-de-la-compra.png}" class="card-img-top" alt="..."
+                                width="8px" height="20px" /></a>
+                        <a th:href="@{/clientes/modificarCliente?codigo=}+${cliente.codigo}" class="btn btn-light"
+                            id="nuevoCliente"><img th:src="@{/img/editar.png}" class="card-img-top" alt="..."
+                                width="8px" height="20px" /></a>
+                        <a th:href="@{/clientes/borrarCliente?codigo=}+${cliente.codigo}" class="btn btn-light"
+                            id="borrarCliente"><img th:src="@{/img/borrar.png}" class="card-img-top" alt="..."
+                                width="8px" height="20px" /></a>
                     </td>
                 </tr>
             </div>
         </table>
-        
+
         <div th:replace="commons/pagination :: pagination" />
     </div>
     <div th:replace="commons/footer :: footer" />

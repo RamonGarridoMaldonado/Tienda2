@@ -19,6 +19,11 @@
       margin-top: .8em;
     }
 
+    input {
+      margin-top: .2em;
+      margin-bottom: .8em;
+    }
+
     #divCheck,
     #botonEnviar,
     #botonCancelar {
@@ -36,8 +41,10 @@
           <div>
             <img th:src="'data:image/jpeg;base64,' + ${producto.imageView}" class="card-img-top" alt="..." width="200px"
               height="200px">
-            Ingresa el archivo:
-            <input name="file" type="file" id="file" />
+            <div th:if="!(${carrito})">
+              Ingresa el archivo:
+              <input name="file" type="file" id="file" />
+            </div>
           </div>
 
         </div>
@@ -59,9 +66,14 @@
             <label for="precio" class="form-label" th:text="#{tabla.precio}">Precio</label>
             <input type="text" class="form-control" id="precio" name="precio" th:value="${producto.precio}">
           </div>
+          <div th:if="${carrito}">
+            <label for="cantidad" class="form-label" th:text="#{tabla.cantidad}">Cantidad</label>
+            <input type="number" id="cantidadProducto" name="cantidadProducto" class="form-control" value="1">
+            <a th:href="@{/cesta/insertarAlCarrito/}+${producto.codigo}" class="btn btn-light" id="cestaCliente"><img th:src="@{/img/cesta-de-la-compra.png}" class="card-img-top" width="30px" height="20px" /></a>
+          </div>
         </div>
       </div>
-      <div>
+      <div th:if="!(${carrito})">
         <input type="submit" value="Actualizar" class="btn btn-primary" id="botonEnviar">
         <a th:href="@{/productos/list}" class="btn btn-primary" id="botonCancelar">Cancelar</a>
       </div>

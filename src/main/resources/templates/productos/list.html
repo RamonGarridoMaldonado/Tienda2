@@ -5,11 +5,12 @@
 
 <body>
   <style>
-    #btnNuevo{
+    #btnNuevo {
       margin-top: .5rem;
       margin-left: 8rem;
     }
-    .card{
+
+    .card {
       margin: 1rem 0.5rem;
     }
   </style>
@@ -27,8 +28,10 @@
             <h5 th:text="${producto.nombre}" th:name="${producto.nombre}" class="card-title" value=""></h5>
             <p th:text="${producto.precio} + @{€}" class="card-text"></p>
             <p th:text="${producto.descripcion}" class="card-text"></p>
-            <a th:href="@{/productos/modificarProducto?codigo=}+${producto.codigo}" class="btn btn-primary">Editar</a>
+            <a th:href="@{/productos/modificarProducto?codigo=}+${producto.codigo}+@{&carrito=false}" class="btn btn-primary">Editar</a>
             <a th:href="@{/productos/borrar?codigo=}+${producto.codigo}" class="btn btn-primary">Borrar</a>
+            <a th:href="@{/productos/modificarProducto?codigo=}+${producto.codigo}+@{&carrito=true}" class="btn btn-primary" id="cestaCliente"><img
+                th:src="@{/img/cesta-de-la-compra.png}" class="card-img-top" alt="..." width="8px" height="20px" /></a>
           </div>
         </div>
       </div>

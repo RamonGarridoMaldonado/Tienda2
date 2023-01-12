@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head th:replace="commons/header :: header" />
+
+<body>
+    <div th:replace="commons/menu :: menu" />
+
+
+    <div class="container">
+        <h1>Cesta</h1>
+        <div th:if="${session.pedido}">
+            <label th:text="${session.cliente.nombre}"></label>
+            <label th:text="${session.cliente.apellidos}"></label>
+            <label th:text="${session.cliente.email}"></label>
+            <label th:text="${session.cliente.dni}"></label>
+
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col" th:text="#{tabla.codigo}">Código</th>
+                        <th scope="col" th:text="#{tabla.nombre}">Nombre Producto</th>
+                        <th scope="col" th:text="#{tabla.precio}">Precio</th>
+                        <th scope="col" th:text="#{tabla.cantidad}">Cantidad</th>
+                        <th scope="col" th:text="#{tabla.subtotal}">SubTotal</th>
+                        <th scope="col" th:text="#{tabla.operaciones}">Operaciones</th>
+                    </tr>
+                </thead>
+                <div th:each="pedido : ${session.pedido.detallePedido}" class="col-3">
+                    <tr>
+                        <td scope="row">
+                            <p th:text="${pedido.codigoPedido}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${pedido.producto.nombre}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${pedido.producto.precio} + @{€}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${pedido.cantidad}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${pedido.subtotal} + @{€}"></p>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" th:href="@{/cesta/deleteproducto/}+${pedido.producto.codigo}"
+                                href="#" role="button"><img th:src="@{/img/borrar.png}" class="card-img-top" width="8px" height="20px"></a>
+                        </td>
+                    </tr>
+                </div>
+                <tr>
+                    <td colspan="5" style="text-align: right;"
+                        th:text="@{Total: } + ${session.pedido.totalCesta} + @{€}"></td>
+                        <td></td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col-lg-3">
+                    <a th:href="@{/pedidos/save}" class="btn btn-primary btn-sm mb-3">Tramitar pedido</a>
+                </div>
+            </div>
+        </div>
+        <div th:if="${session.pedido == null}">
+            <p>No hay ningun pedido</p>
+        </div>
+
+    </div>
+    <div th:replace="commons/footer :: footer" />
+</body>
+
+</html>

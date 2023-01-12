@@ -79,10 +79,11 @@ public class ProductoController {
     }
 
     @RequestMapping(value = "/modificarProducto")
-    public ModelAndView edit(
-            @RequestParam(name = "codigo", required = true) int codigo) {
+    public ModelAndView edit(@RequestParam(name = "codigo", required = true) int codigo,
+            @RequestParam(name = "carrito", required = true) Boolean carrito) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("producto", productosServices.findById(codigo));
+        modelAndView.addObject("carrito", carrito);
         modelAndView.setViewName("productos/edit");
         return modelAndView;
     }
