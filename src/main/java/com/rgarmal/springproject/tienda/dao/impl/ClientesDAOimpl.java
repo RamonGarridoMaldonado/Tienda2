@@ -7,10 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,7 +21,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
-
 import com.rgarmal.springproject.tienda.dao.ClientesDAO;
 import com.rgarmal.springproject.tienda.dao.mappers.ClienteMapper;
 import com.rgarmal.springproject.tienda.model.Cliente;

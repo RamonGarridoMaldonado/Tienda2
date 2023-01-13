@@ -11,15 +11,9 @@ import com.rgarmal.springproject.tienda.model.Pedido;
 public interface PedidosServices {
 
     public Page<Pedido> findAll(Pageable page);
-
-    public Pedido findById(int codigo);
-
-    public void insert(Pedido pedido);
-
-    public void update(Pedido pedido);
-    
-    public Pedido findLast();
-
+    public Pedido find(int codigo);
+    public void save(Pedido pedido);
+    // public void update(Pedido producto);
     public void delete(int codigo);
 
 }

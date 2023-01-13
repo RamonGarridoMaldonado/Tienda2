@@ -1,32 +1,101 @@
 package com.rgarmal.springproject.tienda.controllers;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import com.rgarmal.springproject.tienda.model.DetallePedido;
 import com.rgarmal.springproject.tienda.model.Pedido;
 import com.rgarmal.springproject.tienda.model.Producto;
 import com.rgarmal.springproject.tienda.services.ClientesServices;
+import com.rgarmal.springproject.tienda.services.PedidosServices;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+
 
 @Controller
-@RequestMapping("cesta")
+@RequestMapping("pedidos")
 public class PedidoController {
 
     @Autowired
-    ClientesServices clientesServices;
+    PedidosServices pedidosService;
 
-    /*@RequestMapping(value = { "/pedido" })
-    public ModelAndView visualizarCarrito(Model model, HttpSession session,Producto producto) {
-        DetallePedido detallePedido = new DetallePedido(9,producto,2);
-        session.setAttribute("pedido", detallePedido);
-        session.setAttribute("pedidosCarrito", detallePedido);
+    @Value("${pagination.size}")
+    int sizePage;
+
+    @GetMapping(value = "/list")
+    public ModelAndView list(Model model){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("pedidos/pedido");
+        modelAndView.setViewName("redirect:list/1/codigo/desc");
         return modelAndView;
-    }*/
+    }
+
+    @GetMapping(value = "/list/{numPage}/{fieldSort}/{directionSort}")
+    public ModelAndView listPage(Model model,
+            @PathVariable("numPage") Integer numPage,
+            @PathVariable("fieldSort") String fieldSort,
+            @PathVariable("directionSort") String directionSort) {
+
+
+        Pageable pageable = PageRequest.of(numPage - 1, sizePage,
+            directionSort.equals("asc") ? Sort.by(fieldSort).ascending() : Sort.by(fieldSort).descending());
+
+        Page<Pedido> page = pedidosService.findAll(pageable);
+
+        List<Pedido> pedidos = page.getContent();
+
+        ModelAndView modelAndView = new ModelAndView("pedidos/list");
+        modelAndView.addObject("pedidos", pedidos);
+
+
+		modelAndView.addObject("numPage", numPage);
+		modelAndView.addObject("totalPages", page.getTotalPages());
+		modelAndView.addObject("totalElements", page.getTotalElements());
+
+		modelAndView.addObject("fieldSort", fieldSort);
+		modelAndView.addObject("directionSort", directionSort.equals("asc") ? "asc" : "desc");
+
+        return modelAndView;
+    }
+
+    @GetMapping(path = { "/edit/{codigo}" })
+    public ModelAndView edit(
+            @PathVariable(name = "codigo", required = true) int codigo, final Locale locale) {
+
+        Pedido pedido = pedidosService.find(codigo);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("pedido", pedido);
+
+        modelAndView.setViewName("pedidos/edit");
+        return modelAndView;
+    }
+
+    @GetMapping(path = { "/save" })
+    public ModelAndView save(HttpSession session)
+            throws IOException {
+
+        Pedido pedido = (Pedido) session.getAttribute("pedido");
+
+        pedidosService.save(pedido);
+
+        session.removeAttribute("pedido");
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:list");
+
+        return modelAndView;
+    }
 }

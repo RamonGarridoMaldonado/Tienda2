@@ -78,7 +78,7 @@
     </div>
 
     <div th:if="${carrito}">  
-      <form th:action="@{/cesta/pedido}" method="post" enctype="multipart/form-data">
+      <form th:action="@{/cesta/addcesta/{codigo}/{cantidad}(codigo=${producto.codigo},cantidad=2)}" method="post" enctype="multipart/form-data">
         <div class="row">
           <div class="col">
           <div th:if="${carrito}">
@@ -106,10 +106,10 @@
             </div>
             <div>
               <label for="cantidad" class="form-label" th:text="#{tabla.cantidad}">Cantidad</label>
-              <input type="number" class="form-control" id="cantidad" name="cantidad" th:value="${cantidad}">
+              <input type="number" id="quantity" name="quantity" min="1" max="500" value="1">
             </div>
             <div>
-              <input type="submit" value="Añadir" class="btn btn-primary" id="botonEnviar">
+              <a class="btn btn-primary" th:href="@{/cesta/addcesta/{codigo}/{cantidad}(codigo=${producto.codigo},cantidad=2)}" role="button">Añadir</a>
               <a th:href="@{/productos/list}" class="btn btn-primary" id="botonCancelar">Cancelar</a>
             </div>
           </div>

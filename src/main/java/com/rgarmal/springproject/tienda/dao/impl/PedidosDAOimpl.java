@@ -29,6 +29,7 @@ import com.rgarmal.springproject.tienda.dao.PedidosDAO;
 import com.rgarmal.springproject.tienda.dao.mappers.ClienteMapper;
 import com.rgarmal.springproject.tienda.model.Cliente;
 import com.rgarmal.springproject.tienda.model.Pedido;
+import java.util.Date;
 
 @Repository
 public class PedidosDAOimpl extends JdbcDaoSupport implements PedidosDAO {
@@ -43,19 +44,81 @@ public class PedidosDAOimpl extends JdbcDaoSupport implements PedidosDAO {
 
     @Override
     public Page<Pedido> findAll(Pageable page) {
-        // TODO Auto-generated method stub
-        return null;
+        String queryCount = "select count(1) from Pedidos";
+        Integer total = getJdbcTemplate().queryForObject(queryCount,Integer.class);
+
+
+        Order order = !page.getSort().isEmpty() ? page.getSort().toList().get(0) : Order.by("codigo");
+
+        String query = "SELECT p.*, c.nombre FROM Pedidos p, Clientes c where p.codigo_cliente = c.codigo ORDER BY " + order.getProperty() + " "
+        + order.getDirection().name() + " LIMIT " + page.getPageSize() + " OFFSET " + page.getOffset();
+
+        final List<Pedido> pedidos = getJdbcTemplate().query(query, new RowMapper<Pedido>() {
+
+            @Override
+            @Nullable
+            public Pedido mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Pedido pedido = new Pedido();
+                pedido.setCodigo(rs.getInt("codigo"));
+                pedido.setCliente(new Cliente(rs.getInt("codigo_cliente")));
+                pedido.getCliente().setNombre(rs.getString("nombre"));
+                if (rs.getDate("fecha") != null) {
+                pedido.setFecha(new java.util.Date(rs.getDate("fecha").getTime()));
+                }
+                pedido.setTotal(rs.getDouble("total"));
+                return pedido;
+            }
+        });
+
+        return new PageImpl<Pedido>(pedidos, page, total);
     }
 
     @Override
     public Pedido findById(int codigo) {
-        // TODO Auto-generated method stub
-        return null;
+        String query = "select p.*, c.nombre from Pedidos p where p.codigo = ?";
+
+        Object params [] = {codigo};
+        int types [] = {Types.INTEGER};
+
+        Pedido producto = (Pedido) getJdbcTemplate().queryForObject(query, params, types, new RowMapper<Pedido>() {
+
+            @Override
+            @Nullable
+            public Pedido mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Pedido pedido = new Pedido();
+                pedido.setCodigo(rs.getInt("codigo"));
+                pedido.setCliente(new Cliente(rs.getInt("codigo_cliente")));
+                // pedido.getCliente().setNombre(rs.getString("nombre"));
+                pedido.setFecha(new java.util.Date(rs.getDate("fecha").getTime()));
+                pedido.setTotal(rs.getDouble("total"));
+                return pedido;
+            }
+            
+        });
+        return producto;
     }
 
     @Override
     public void insert(Pedido pedido) {
-             
+        String query = "insert into Pedidos (codigo_cliente," + 
+        " total," + 
+        " fecha)" + 
+        " values (?, ?, ?)";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        getJdbcTemplate().update(new PreparedStatementCreator() {
+        @Override
+        public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+            PreparedStatement ps = getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, pedido.getCliente().getCodigo());
+            ps.setDouble(2, pedido.getTotal());
+            java.util.Date fecha = new Date();
+            ps.setDate(3, new java.sql.Date(fecha.getTime()));
+            return ps;
+    }
+}, keyHolder);
+
+pedido.setCodigo(keyHolder.getKey().intValue());
     }
 
     @Override
@@ -67,7 +130,6 @@ public class PedidosDAOimpl extends JdbcDaoSupport implements PedidosDAO {
     @Override
     public void updateImageView(Pedido pedido) {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
@@ -78,9 +140,16 @@ public class PedidosDAOimpl extends JdbcDaoSupport implements PedidosDAO {
 
     @Override
     public void delete(int codigo) {
-        // TODO Auto-generated method stub
-        
-    }
+        String query = "delete from Pedidos where codigo = ?";
 
-    
+        Object[] params = {
+            codigo
+        };
+
+        final int[] types = {
+            Types.INTEGER
+        };
+        getJdbcTemplate().update(query, params, types);
+                
+    }
 }

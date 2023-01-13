@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.bind.handler.NoUnboundElement
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,7 +36,7 @@ public class CestaController {
     ProductosServices productosServices;
 
     @RequestMapping(value = {"nuevaCesta"} )
-    public ModelAndView cesta(@RequestParam(name = "codigo", required = true) int codigo,HttpSession session) {
+    public ModelAndView nuevaCesta(@RequestParam(name = "codigo", required = true) int codigo,HttpSession session) {
         
         Cliente cliente = clientesServices.findById(codigo);
 
@@ -47,11 +48,11 @@ public class CestaController {
             pedido.setCliente(cliente);
             session.setAttribute("pedido", pedido);
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("pedidos/pedido");
+            modelAndView.setViewName("redirect:edit");
             return modelAndView;
     }
 
-    @RequestMapping(value = { "/edit" })
+    @GetMapping(value = { "/edit" })
     public ModelAndView cesta(HttpSession session) {
         ModelAndView modelAndView = new ModelAndView();
 
@@ -66,7 +67,7 @@ public class CestaController {
 
         modelAndView.addObject("cliente", cliente);
         modelAndView.addObject("pedido", pedido);
-        modelAndView.setViewName("cesta/edit");
+        modelAndView.setViewName("pedidos/cesta");
         return modelAndView;    
     }
 
@@ -109,14 +110,4 @@ public class CestaController {
             modelAndView.setViewName("redirect:/cesta/edit");
             return modelAndView;
     }
-
-    /*@RequestMapping(value = {"nuevoProducto"})
-    public ModelAndView nuevo(@RequestParam(name = "codigo", required = true) int codigo,HttpSession session) {
-        ModelAndView modelAndView = new ModelAndView();
-        List<DetallePedido> pedidos = (List<DetallePedido>) session.getAttribute("listaCompra");
-        Producto producto =  productoServices.findById(codigo);
-        pedidos.add(producto);
-        return modelAndView;
-
-    }*/
 }
