@@ -3,11 +3,7 @@
     <head th:replace="commons/header :: header" />
 <body>
     <div th:replace="commons/menu :: menu" />
-
-
-    <label th:text="${session.pedido.codigo}"></label>
-    <label th:text="${session.pedido.codigo}"></label>
-
+        <div>Lista de compra de <span th:text="|${cliente.nombre} ${cliente.apellidos}"></span></div>
     <div th:replace="commons/footer :: footer" />
 </body>
 </html>

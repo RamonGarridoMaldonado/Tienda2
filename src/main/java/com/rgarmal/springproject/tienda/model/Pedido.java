@@ -1,48 +1,45 @@
 package com.rgarmal.springproject.tienda.model;
 
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Pedido {
 
-    private int codigo;
-    private Cliente cliente;
-    private List<DetallePedido> detallePedido;
+    private long codigo;
+    private double total;
     private Date fecha;
-    private float total;
-
+    private Cliente cliente;
+    private List<DetallePedido> detallePedidos;
+    
     public Pedido() {
+        this.cliente = new Cliente();
+        this.detallePedidos = new ArrayList<DetallePedido>();
     }
 
-    public Pedido(int codigo) {
-        this.codigo = codigo;
-    }
-
-    public Pedido (int codigo,Cliente cliente, float total,Date fecha) {
-        this.codigo = codigo;
-        this.cliente = cliente;
-        this.total = total;
-        this.fecha = fecha;
-    }
-
-    public int getCodigo() {
+    public long getCodigo() {
         return codigo;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public void setCodigo(long codigo) {
+        this.codigo = codigo;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public double getTotalCesta() {
+
+        total = 0;
+        for (DetallePedido detalle : this.detallePedidos) {
+            total += detalle.getCantidad()*detalle.getProducto().getPrecio();
+        }
+
+        return total;
     }
 
-    public List<DetallePedido> getDetallePedido() {
-        return detallePedido;
-    }
+    
 
-    public void setDetallePedido(List<DetallePedido> detallePedido) {
-        this.detallePedido = detallePedido;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public Date getFecha() {
@@ -53,34 +50,23 @@ public class Pedido {
         this.fecha = fecha;
     }
 
-    public float getTotal() {
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<DetallePedido> getDetallePedidos() {
+        return detallePedidos;
+    }
+
+    public void setDetallePedidos(List<DetallePedido> detallePedidos) {
+        this.detallePedidos = detallePedidos;
+    }
+
+    public double getTotal() {
         return total;
     }
-
-    public void setTotal(float total) {
-        this.total = total;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + codigo;
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Pedido other = (Pedido) obj;
-        if (codigo != other.codigo)
-            return false;
-        return true;
-    }
-
 }
